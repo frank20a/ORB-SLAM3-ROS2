@@ -3,10 +3,12 @@
 #define __RGBD_SLAM_NODE_HPP__
 
 
-#include<iostream>
-#include<algorithm>
-#include<fstream>
-#include<chrono>
+#include <iostream>
+#include <algorithm>
+#include <fstream>
+#include <chrono>
+#include <Eigen/Core>
+#include <opencv2/core/eigen.hpp>
 
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/image.hpp"
@@ -21,6 +23,7 @@
 #include"Frame.h"
 #include "Map.h"
 #include "Tracking.h"
+#include "Converter.h"
 
 
 typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::msg::Image, sensor_msgs::msg::Image> approximate_sync_policy;

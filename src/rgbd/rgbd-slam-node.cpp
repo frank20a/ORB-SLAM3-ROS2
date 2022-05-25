@@ -60,6 +60,10 @@ void RgbdSlamNode::GrabRGBD(const ImageMsg::SharedPtr msgRGB, const ImageMsg::Sh
     }
     
 
-    cv::Mat Tcw = m_SLAM->TrackRGBD(cv_ptrRGB->image, cv_ptrD->image, msgRGB->header.stamp.sec);
+    // cv::Mat Tcw = m_SLAM->TrackRGBD(cv_ptrRGB->image, cv_ptrD->image, msgRGB->header.stamp.sec);
+    cv::Mat Tcw;
+    Sophus::SE3f Tcw_SE3f = m_SLAM->TrackRGBD(cv_ptrRGB->image, cv_ptrD->image, msgRGB->header.stamp.sec);
+    Eigen::Matrix4f Tcw_Matrix = Tcw_SE3f.matrix();
+    cv::eigen2cv(Tcw_Matrix, Tcw);
     
 }

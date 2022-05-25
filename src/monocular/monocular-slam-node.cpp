@@ -13,11 +13,14 @@ using namespace std;
 using std::placeholders::_1;
 
 MonocularSlamNode::MonocularSlamNode(ORB_SLAM3::System* pSLAM, const string &strVocFile, const string &strSettingsFile)
-:   Node("orbslam")
-    ,m_SLAM(pSLAM)
+:   rclcpp::Node("orbslam"), m_SLAM(pSLAM)
 {
 
-    m_image_subscriber = this->create_subscription<ImageMsg>("camera", std::bind(&MonocularSlamNode::GrabImage, this, std::placeholders::_1));
+    m_image_subscriber = this->create_subscription<ImageMsg>(
+        "camera", 
+        10,
+        std::bind(&MonocularSlamNode::GrabImage, this, std::placeholders::_1)
+    );
 
 }
 
@@ -47,6 +50,10 @@ void MonocularSlamNode::GrabImage(const ImageMsg::SharedPtr msg)
         return;
     }
     
-    cv::Mat Tcw = m_SLAM->TrackMonocular(m_cvImPtr->image, msg->header.stamp.sec);
+    // cv::Mat Tcw = m_SLAM->TrackMonocular(m_cvImPtr->image, msg->header.stamp.sec);
+    cv::Mat Tcw;
+    Sophus::SE3f Tcw_SE3f = m_SLAM->TrackMonocular(m_cvImPtr->image, msg->header.stamp.sec);
+    Eigen::Matrix4f Tcw_Matrix = Tcw_SE3f.matrix();
+    cv::eigen2cv(Tcw_Matrix, Tcw);
 
 }

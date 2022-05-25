@@ -108,12 +108,20 @@ void StereoSlamNode::GrabStereo(const ImageMsg::SharedPtr msgLeft, const ImageMs
         cv::Mat imLeft, imRight;
         cv::remap(cv_ptrLeft->image,imLeft,M1l,M2l,cv::INTER_LINEAR);
         cv::remap(cv_ptrRight->image,imRight,M1r,M2r,cv::INTER_LINEAR);
-        Tcw = m_SLAM->TrackStereo(imLeft, imRight, msgLeft->header.stamp.sec);
+        // Tcw = m_SLAM->TrackStereo(imLeft, imRight, msgLeft->header.stamp.sec);
+        cv::Mat Tcw;
+        Sophus::SE3f Tcw_SE3f = m_SLAM->TrackStereo(imLeft, imRight, msgLeft->header.stamp.sec);
+        Eigen::Matrix4f Tcw_Matrix = Tcw_SE3f.matrix();
+        cv::eigen2cv(Tcw_Matrix, Tcw);
 
     }
     else {
         
-        Tcw = m_SLAM->TrackRGBD(cv_ptrLeft->image, cv_ptrRight->image, msgLeft->header.stamp.sec);
+        // Tcw = m_SLAM->TrackRGBD(cv_ptrLeft->image, cv_ptrRight->image, msgLeft->header.stamp.sec);
+        cv::Mat Tcw;
+        Sophus::SE3f Tcw_SE3f = m_SLAM->TrackRGBD(cv_ptrLeft->image, cv_ptrRight->image, msgLeft->header.stamp.sec);
+        Eigen::Matrix4f Tcw_Matrix = Tcw_SE3f.matrix();
+        cv::eigen2cv(Tcw_Matrix, Tcw);
     
     }
 

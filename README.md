@@ -3,6 +3,18 @@
 #### ROS 2: dashing
 
 
+## Extra instructions
+- ```bash
+sudo apt install libgtk2.0-dev pkg-config
+```
+- Uninstall ```ros-<version>-libg2o``` before building and reinstall after
+- Copy all the .so files from Pangolin/build to /lib on Ubuntu 20.04 and run ```sudo ldconfig```
+- build opencv from source with these options:
+```bash
+make -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=/usr/local -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_V4L=ON -DWITH_QT=ON -DWITH_OPENGL=ON -DWITH_CUBLAS=ON -DCUDA_NVCC_FLAGS="-D_FORCE_INLINES" -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -GNinja ../opencv-4.x
+```
+Beware of conflicts with opencv package downloaded with ros-<version>-desktop
+
 ## Dependecies
 
 - Eigen 3.2 **(upper versions bring up incompatibilities)**

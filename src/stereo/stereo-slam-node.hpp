@@ -9,11 +9,14 @@
 #include "message_filters/sync_policies/approximate_time.h"
 
 #include <cv_bridge/cv_bridge.h>
+#include <Eigen/Core>
+#include <opencv2/core/eigen.hpp>
 
-#include"System.h"
-#include"Frame.h"
+#include "System.h"
+#include "Frame.h"
 #include "Map.h"
 #include "Tracking.h"
+#include "Converter.h"
 
 
 typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::msg::Image, sensor_msgs::msg::Image> approximate_sync_policy;

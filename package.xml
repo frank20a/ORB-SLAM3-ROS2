@@ -4,7 +4,7 @@
   <name>orbslam</name>
   <version>0.0.2</version>
   <description>ROS2 wrapper for the ORB_SLAM3 library</description>
-  <maintainer email="frank.fourlas">Frank Fourlas</maintainer>
+  <maintainer email="frank.fourlas@gmail.com">Frank Fourlas</maintainer>
   <license>MIT</license>
   <author>Alberto Soragna / Frank Fourlas</author>
 
