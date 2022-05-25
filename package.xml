@@ -2,11 +2,11 @@
 <?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>orbslam</name>
-  <version>0.0.1</version>
-  <description>ROS2 wrapper for the ORB_SLAM2 library</description>
-  <maintainer email="alberto.soragna@gmail.com">Alberto Soragna</maintainer>
+  <version>0.0.2</version>
+  <description>ROS2 wrapper for the ORB_SLAM3 library</description>
+  <maintainer email="frank.fourlas">Frank Fourlas</maintainer>
   <license>MIT</license>
-  <author>Alberto Soragna</author>
+  <author>Alberto Soragna / Frank Fourlas</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

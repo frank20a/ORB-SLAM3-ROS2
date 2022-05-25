@@ -31,7 +31,7 @@ class RgbdSlamNode : public rclcpp::Node
 
 public:
 
-    RgbdSlamNode(ORB_SLAM2::System* pSLAM, const string &strVocFile, const string &strSettingsFile);
+    RgbdSlamNode(ORB_SLAM3::System* pSLAM, const string &strVocFile, const string &strSettingsFile);
 
 
     ~RgbdSlamNode();
@@ -42,7 +42,7 @@ private:
 
     void GrabRGBD(const sensor_msgs::msg::Image::SharedPtr msgRGB, const sensor_msgs::msg::Image::SharedPtr msgD);
 
-    ORB_SLAM2::System* m_SLAM;
+    ORB_SLAM3::System* m_SLAM;
 
     cv_bridge::CvImageConstPtr cv_ptrRGB;
     cv_bridge::CvImageConstPtr cv_ptrD;

@@ -12,7 +12,7 @@ using namespace std;
 
 using std::placeholders::_1;
 
-MonocularSlamNode::MonocularSlamNode(ORB_SLAM2::System* pSLAM, const string &strVocFile, const string &strSettingsFile)
+MonocularSlamNode::MonocularSlamNode(ORB_SLAM3::System* pSLAM, const string &strVocFile, const string &strSettingsFile)
 :   Node("orbslam")
     ,m_SLAM(pSLAM)
 {

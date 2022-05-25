@@ -9,7 +9,7 @@ using namespace std;
 
 using std::placeholders::_1;
 
-RgbdSlamNode::RgbdSlamNode(ORB_SLAM2::System* pSLAM, const string &strVocFile, const string &strSettingsFile)
+RgbdSlamNode::RgbdSlamNode(ORB_SLAM3::System* pSLAM, const string &strVocFile, const string &strSettingsFile)
 :   Node("orbslam")
     ,m_SLAM(pSLAM)
 {

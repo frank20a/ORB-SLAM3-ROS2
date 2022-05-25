@@ -21,13 +21,13 @@ find_package(cv_bridge REQUIRED)
 find_package(message_filters REQUIRED)
 find_package(Pangolin REQUIRED)
 
-set(ORB_SLAM2_DIR ${HOME}/ORB_SLAM2)
+set(ORB_SLAM3_DIR ${HOME}/dev_ws/ORB_SLAM3)
 
-include_directories(${ORB_SLAM2_DIR}/include)
-include_directories(${ORB_SLAM2_DIR})
+include_directories(${ORB_SLAM3_DIR}/include)
+include_directories(${ORB_SLAM3_DIR})
 include_directories(${Pangolin_INCLUDE_DIRS})
 
-link_directories(${ORB_SLAM2_DIR}/lib/)
+link_directories(${ORB_SLAM3_DIR}/lib/)
 
 
 add_executable(mono 
@@ -36,10 +36,10 @@ add_executable(mono
 )
 
 target_link_libraries(mono
-  ORB_SLAM2
+  ORB_SLAM3
 )
 
-ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM2 Pangolin)
+ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge ORB_SLAM3 Pangolin)
 
 
 add_executable(rgbd 
@@ -48,10 +48,10 @@ add_executable(rgbd
 )
 
 target_link_libraries(rgbd
-  ORB_SLAM2
+  ORB_SLAM3
 )
 
-ament_target_dependencies(rgbd rclcpp sensor_msgs cv_bridge message_filters ORB_SLAM2 Pangolin)
+ament_target_dependencies(rgbd rclcpp sensor_msgs cv_bridge message_filters ORB_SLAM3 Pangolin)
 
 
 
@@ -61,10 +61,10 @@ add_executable(stereo
 )
 
 target_link_libraries(stereo
-  ORB_SLAM2
+  ORB_SLAM3
 )
 
-ament_target_dependencies(stereo rclcpp sensor_msgs cv_bridge message_filters ORB_SLAM2 Pangolin)
+ament_target_dependencies(stereo rclcpp sensor_msgs cv_bridge message_filters ORB_SLAM3 Pangolin)
 
 
 
