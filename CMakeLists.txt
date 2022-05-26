@@ -7,7 +7,7 @@ set(HOME /home/frank20a)
 
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 11)
 endif()
 
 add_compile_options(-Wno-all -Wno-reorder -Wno-deprecated-declarations -Wno-pedantic)
@@ -25,13 +25,13 @@ find_package(sensor_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(message_filters REQUIRED)
 find_package(Pangolin REQUIRED)
-find_package(OpenCV REQUIRED)
+find_package(OpenCV 4.6 EXACT REQUIRED)
 find_package(Eigen REQUIRED)
 
 include_directories(
+  ${ORB_SLAM3_DIR}
   ${ORB_SLAM3_DIR}/include
   ${ORB_SLAM3_DIR}/include/CameraModels
-  ${ORB_SLAM3_DIR}
   ${ORB_SLAM3_DIR}/Thirdparty/Sophus
   # ${ORB_SLAM3_DIR}/Thirdparty/DBoW2
   # ${ORB_SLAM3_DIR}/Thirdparty/g2o
@@ -42,47 +42,68 @@ include_directories(
 link_directories(${ORB_SLAM3_DIR}/lib/)
 link_directories(${ORB_SLAM3_DIR}/Thirdparty/g2o/lib/)
 
-
-add_executable(mono 
-  src/monocular/mono.cpp
-  src/monocular/monocular-slam-node.cpp
+set(LIBS 
+  ${OpenCV_LIBS} 
+  ${EIGEN3_LIBS}
+  ${Pangolin_LIBRARIES}
+  ${ORB_SLAM3_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
+  ${ORB_SLAM3_DIR}/Thirdparty/g2o/lib/libg2o.so
+  ${ORB_SLAM3_DIR}/lib/libORB_SLAM3.so
+  -lboost_system
 )
 
-target_link_libraries(mono
-  ORB_SLAM3
+
+# add_executable(mono 
+#   src/monocular/mono.cpp
+#   src/monocular/monocular-slam-node.cpp
+# )
+
+# target_link_libraries(mono
+#   ${LIBS}
+# )
+
+# ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge Pangolin)
+
+
+# add_executable(rgbd 
+#   src/rgbd/rgbd.cpp
+#   src/rgbd/rgbd-slam-node.cpp
+# )
+
+# target_link_libraries(rgbd
+#   ${LIBS}
+# )
+
+# ament_target_dependencies(rgbd rclcpp sensor_msgs cv_bridge message_filters Pangolin)
+
+
+
+# add_executable(stereo 
+#   src/stereo/stereo.cpp
+#   src/stereo/stereo-slam-node.cpp
+# )
+
+# target_link_libraries(stereo
+#   ${LIBS}
+# )
+
+# ament_target_dependencies(stereo rclcpp sensor_msgs cv_bridge message_filters Pangolin)
+
+
+
+add_executable(tester
+  src/test/ros_mono.cc
 )
 
-ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge Pangolin)
-
-
-add_executable(rgbd 
-  src/rgbd/rgbd.cpp
-  src/rgbd/rgbd-slam-node.cpp
+target_link_libraries(tester
+  ${LIBS}
 )
 
-target_link_libraries(rgbd
-  ORB_SLAM3
-)
-
-ament_target_dependencies(rgbd rclcpp sensor_msgs cv_bridge message_filters Pangolin)
+ament_target_dependencies(tester rclcpp sensor_msgs cv_bridge message_filters Pangolin OpenCV)
 
 
-
-add_executable(stereo 
-  src/stereo/stereo.cpp
-  src/stereo/stereo-slam-node.cpp
-)
-
-target_link_libraries(stereo
-  ORB_SLAM3
-)
-
-ament_target_dependencies(stereo rclcpp sensor_msgs cv_bridge message_filters Pangolin)
-
-
-
-install(TARGETS mono rgbd stereo
-# install(TARGETS mono
+# install(TARGETS mono rgbd stereo tester
+install(TARGETS tester
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

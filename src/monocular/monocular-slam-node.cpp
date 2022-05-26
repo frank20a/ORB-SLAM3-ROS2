@@ -1,6 +1,6 @@
 #include "monocular-slam-node.hpp"
 
-#include<opencv2/core/core.hpp>
+#include <opencv2/core/core.hpp>
 
 using ImageMsg = sensor_msgs::msg::Image;
 
@@ -18,7 +18,7 @@ MonocularSlamNode::MonocularSlamNode(ORB_SLAM3::System* pSLAM, const string &str
 
     m_image_subscriber = this->create_subscription<ImageMsg>(
         "camera", 
-        10,
+        rclcpp::SensorDataQoS(),
         std::bind(&MonocularSlamNode::GrabImage, this, std::placeholders::_1)
     );
 
@@ -38,6 +38,7 @@ MonocularSlamNode::~MonocularSlamNode()
 
 void MonocularSlamNode::GrabImage(const ImageMsg::SharedPtr msg)
 {
+    RCLCPP_INFO(this->get_logger(), "GrabImage");
 
     // Copy the ros image message to cv::Mat.
     try
@@ -49,10 +50,11 @@ void MonocularSlamNode::GrabImage(const ImageMsg::SharedPtr msg)
         RCLCPP_ERROR(this->get_logger(), "cv_bridge exception: %s", e.what());
         return;
     }
+
     
     // cv::Mat Tcw = m_SLAM->TrackMonocular(m_cvImPtr->image, msg->header.stamp.sec);
     cv::Mat Tcw;
-    Sophus::SE3f Tcw_SE3f = m_SLAM->TrackMonocular(m_cvImPtr->image, msg->header.stamp.sec);
+    Sophus::SE3f Tcw_SE3f = m_SLAM->TrackMonocular(m_cvImPtr->image, msg->header.stamp.sec);  // <=====================
     Eigen::Matrix4f Tcw_Matrix = Tcw_SE3f.matrix();
     cv::eigen2cv(Tcw_Matrix, Tcw);
 
