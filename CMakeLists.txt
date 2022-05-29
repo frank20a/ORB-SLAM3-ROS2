@@ -91,19 +91,19 @@ set(LIBS
 
 
 
-add_executable(tester
+add_executable(mono
   src/test/ros_mono.cc
 )
 
-target_link_libraries(tester
+target_link_libraries(mono
   ${LIBS}
 )
 
-ament_target_dependencies(tester rclcpp sensor_msgs cv_bridge message_filters Pangolin OpenCV)
+ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge message_filters Pangolin OpenCV)
 
 
 # install(TARGETS mono rgbd stereo tester
-install(TARGETS tester
+install(TARGETS mono
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
