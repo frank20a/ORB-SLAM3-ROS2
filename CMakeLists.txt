@@ -19,14 +19,16 @@ set(CMAKE_PREFIX_PATH ${ORB_SLAM3_DIR}:${CMAKE_PREFIX_PATH})
 
 SET(G2O_LIBS g2o_cli g2o_ext_freeglut_minimal g2o_simulator g2o_solver_slam2d_linear g2o_types_icp g2o_types_slam2d g2o_core g2o_interface g2o_solver_csparse g2o_solver_structure_only g2o_types_sba g2o_types_slam3d g2o_csparse_extension g2o_opengl_helper g2o_solver_dense g2o_stuff g2o_types_sclam2d g2o_viewer g2o_ext_csparse g2o_parser g2o_solver_pcg g2o_types_data g2o_types_sim3 cxsparse)
 
+find_package(OpenCV 4.6 EXACT REQUIRED)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(message_filters REQUIRED)
 find_package(Pangolin REQUIRED)
-find_package(OpenCV 4.6 EXACT REQUIRED)
 find_package(Eigen REQUIRED)
+find_package(tf2_ros REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 include_directories(
   ${ORB_SLAM3_DIR}
@@ -49,48 +51,11 @@ set(LIBS
   ${ORB_SLAM3_DIR}/Thirdparty/DBoW2/lib/libDBoW2.so
   ${ORB_SLAM3_DIR}/Thirdparty/g2o/lib/libg2o.so
   ${ORB_SLAM3_DIR}/lib/libORB_SLAM3.so
+  /opt/ros/galactic/lib/libcv_bridge.so
   -lboost_system
 )
 
-
-# add_executable(mono 
-#   src/monocular/mono.cpp
-#   src/monocular/monocular-slam-node.cpp
-# )
-
-# target_link_libraries(mono
-#   ${LIBS}
-# )
-
-# ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge Pangolin)
-
-
-# add_executable(rgbd 
-#   src/rgbd/rgbd.cpp
-#   src/rgbd/rgbd-slam-node.cpp
-# )
-
-# target_link_libraries(rgbd
-#   ${LIBS}
-# )
-
-# ament_target_dependencies(rgbd rclcpp sensor_msgs cv_bridge message_filters Pangolin)
-
-
-
-# add_executable(stereo 
-#   src/stereo/stereo.cpp
-#   src/stereo/stereo-slam-node.cpp
-# )
-
-# target_link_libraries(stereo
-#   ${LIBS}
-# )
-
-# ament_target_dependencies(stereo rclcpp sensor_msgs cv_bridge message_filters Pangolin)
-
-
-
+# Monocular
 add_executable(mono
   src/test/ros_mono.cc
 )
@@ -99,11 +64,41 @@ target_link_libraries(mono
   ${LIBS}
 )
 
-ament_target_dependencies(mono rclcpp sensor_msgs cv_bridge message_filters Pangolin OpenCV)
+ament_target_dependencies(
+  mono 
+  rclcpp 
+  sensor_msgs 
+  geometry_msgs 
+  tf2_ros 
+  cv_bridge 
+  message_filters 
+  Pangolin 
+  OpenCV
+)
 
+# Monocular Inertial
+add_executable(mono_inertial
+  src/test/ros_mono_inertial.cc
+)
 
-# install(TARGETS mono rgbd stereo tester
-install(TARGETS mono
+target_link_libraries(mono_inertial
+  ${LIBS}
+)
+
+ament_target_dependencies(
+  mono_inertial 
+  rclcpp 
+  sensor_msgs 
+  geometry_msgs 
+  tf2_ros 
+  cv_bridge 
+  message_filters 
+  Pangolin 
+  OpenCV
+)
+
+# Create targets
+install(TARGETS mono mono_inertial
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
