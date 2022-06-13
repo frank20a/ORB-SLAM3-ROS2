@@ -54,7 +54,7 @@ public:
             rclcpp::SensorDataQoS()
         );
 
-        tf_broadcaster = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
+        // tf_broadcaster = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
 
         ns = this->get_namespace();
         if(ns != "") ns += "/";
@@ -69,7 +69,7 @@ private:
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr m_image_subscriber;
     rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr m_pose_publisher;
 
-    std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster;
+    // std::unique_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster;
 
     std::string ns;
 };
@@ -137,7 +137,7 @@ void ImageGrabber::GrabImage(const sensor_msgs::msg::Image::ConstPtr msg)
     // pose_msg.child_frame_id = ns + "estimated_pose";
     // pose_msg.transform.translation.x = T.translation().x() * 10;
     // pose_msg.transform.translation.y = T.translation().y() * 10;
-    // pose_msg.transform.translation.z = T.translation().z() * 10/* + 2*/;
+    // pose_msg.transform.translation.z = T.translation().z() * 10 + 2;
     // pose_msg.transform.rotation.x = q.x() /*+ 0.7071788*/;
     // pose_msg.transform.rotation.y = q.y();
     // pose_msg.transform.rotation.z = q.z();
@@ -159,7 +159,7 @@ void ImageGrabber::GrabImage(const sensor_msgs::msg::Image::ConstPtr msg)
     m_pose_publisher->publish(pose_stamped_msg);
 
     // RCLCPP_INFO(this->get_logger(), "[%.3f, %.3f, %.3f]", pose_msg.transform.translation.x, pose_msg.transform.translation.y, pose_msg.transform.translation.z);
-    RCLCPP_INFO(this->get_logger(), "[%.3f, %.3f, %.3f]", pose_msg.position.x, pose_msg.position.y, pose_msg.position.z);
+    // RCLCPP_INFO(this->get_logger(), "[%.3f, %.3f, %.3f]", pose_msg.position.x, pose_msg.position.y, pose_msg.position.z);
 
 
 }
